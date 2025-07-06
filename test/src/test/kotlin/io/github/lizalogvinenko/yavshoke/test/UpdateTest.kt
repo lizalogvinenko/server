@@ -43,6 +43,46 @@ class UpdateTest {
     }
 
     @Test
+    fun `UPDATE user with hieroglyphs`() = runTest {
+        val authenticationResult = steps.createUserAndAuthenticate()
+
+        val response = client.update(
+            UpdateRequest(
+                name = "春天夏天"
+            ),
+            bearerToken = authenticationResult.token
+        )
+
+        Assertions.assertEquals(HttpStatusCode.OK, response.status)
+
+        val body = response.body<UpdateResponse>()
+
+        Assertions.assertEquals(
+            UpdateResponse.User(
+                id = body.user.id,
+                email = authenticationResult.email,
+                name = "春天夏天",
+                age = StubUser.AGE
+            ),
+            body.user
+        )
+    }
+
+    @Test
+    fun `UPDATE user with emoji`() = runTest {
+        val authenticationResult = steps.createUserAndAuthenticate()
+
+        val response = client.update(
+            UpdateRequest(
+                name = "❤🏞️"
+            ),
+            bearerToken = authenticationResult.token
+        )
+
+        Assertions.assertEquals(HttpStatusCode.UnprocessableEntity, response.status)
+    }
+
+    @Test
     fun `UPDATE user with no token`() = runTest {
         val response = client.update(
             bearerToken = "",
@@ -66,4 +106,3 @@ class UpdateTest {
         Assertions.assertEquals(HttpStatusCode.UnprocessableEntity, response.status)
     }
 }
-

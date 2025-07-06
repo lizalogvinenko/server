@@ -52,4 +52,16 @@ class LoginTest {
 
         Assertions.assertEquals(HttpStatusCode.UnprocessableEntity, response.status)
     }
+
+    @Test
+    fun `LOGIN SQL injection`() = runTest {
+        val response = client.login(
+            LoginRequest(
+                email = "SELECT * FROM Users WHERE email = lizacapriza@mail.ru",
+                password = "12345678"
+            )
+        )
+
+        Assertions.assertEquals(HttpStatusCode.UnprocessableEntity, response.status)
+    }
 }

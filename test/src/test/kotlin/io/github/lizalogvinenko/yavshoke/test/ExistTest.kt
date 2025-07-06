@@ -33,4 +33,26 @@ class ExistTest {
             response.body<ExistResponse>()
         )
     }
+
+    @Test
+    fun `GET not email format`() = runTest {
+        val response = client.exist(
+            ExistRequest(email = "3232222323")
+        )
+
+       // Assertions.assertEquals(HttpStatusCode.OK, response.status)
+        Assertions.assertEquals(
+            ExistResponse(exist = false),
+            response.body<ExistResponse>()
+        )
+    }
+
+    @Test
+    fun `GET SQL injection`() = runTest {
+            val response = client.exist(
+                ExistRequest(email = "SELECT email FROM Users WHERE email = lizacapriza@mail.ru")
+            )
+
+            Assertions.assertEquals(HttpStatusCode.UnprocessableEntity, response.status)
+        }
 }
