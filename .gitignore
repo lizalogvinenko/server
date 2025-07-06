@@ -46,3 +46,11 @@ ssl/
 
 # Misc
 .DS_Store
+/.idea/.gitignore
+/.idea/codeStyles/codeStyleConfig.xml
+/.idea/gradle.xml
+/.idea/kotlinc.xml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/server.iml
+/.idea/vcs.xml
