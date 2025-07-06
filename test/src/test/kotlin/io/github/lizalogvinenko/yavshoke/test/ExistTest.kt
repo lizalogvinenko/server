@@ -40,11 +40,7 @@ class ExistTest {
             ExistRequest(email = "3232222323")
         )
 
-       // Assertions.assertEquals(HttpStatusCode.OK, response.status)
-        Assertions.assertEquals(
-            ExistResponse(exist = false),
-            response.body<ExistResponse>()
-        )
+       Assertions.assertEquals(HttpStatusCode.UnprocessableEntity, response.status)
     }
 
     @Test

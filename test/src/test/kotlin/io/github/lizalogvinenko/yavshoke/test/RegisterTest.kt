@@ -185,6 +185,19 @@ class RegisterTest {
         Assertions.assertEquals(HttpStatusCode.UnprocessableEntity, response.status)
     }
 
+    @Test
+    fun `REGISTER SQL injection`() = runTest {
+        val response = client.register(
+            RegisterRequest(
+                email = "INSERT INTO Users (liza@mail.ru, 12345678, 28)",
+                password = "12345678",
+                age = StubUser.AGE
+            )
+        )
+
+        Assertions.assertEquals(HttpStatusCode.UnprocessableEntity, response.status)
+    }
+
     private fun randomString(): String {
         val uuid = UUID.randomUUID().toString()
         return Base64.getEncoder().encode(uuid.toByteArray())
