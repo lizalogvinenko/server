@@ -189,7 +189,7 @@ class RegisterTest {
     fun `REGISTER SQL injection`() = runTest {
         val response = client.register(
             RegisterRequest(
-                email = "INSERT INTO Users (liza@mail.ru, 12345678, 28)",
+                email = "INSERT INTO Users (liza@mail.ru, 123456, 28)",
                 password = "12345678",
                 age = StubUser.AGE
             )
